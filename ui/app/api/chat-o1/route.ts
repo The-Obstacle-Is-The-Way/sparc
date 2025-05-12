@@ -6,7 +6,7 @@ import ratelimit from '@/lib/ratelimit'
 import { fragmentSchema as schema } from '@/lib/schema'
 import { Templates, templatesToPrompt } from '@/lib/templates'
 import { openai } from '@ai-sdk/openai'
-import { streamObject, LanguageModel, CoreMessage, generateText } from 'ai'
+import { streamObject, CoreMessage, generateText } from 'ai'
 
 export const maxDuration = 60
 
@@ -65,13 +65,13 @@ export async function POST(req: Request) {
   })
 
   const { text } = await generateText({
-    model: modelClient as LanguageModel,
+    model: modelClient,
     messages,
     ...modelParams,
   })
 
   const stream = await streamObject({
-    model: openai('gpt-4o-mini') as LanguageModel,
+    model: openai('gpt-4o-mini'),
     schema,
     system: `Please extract as required by the schema from the response. You can use one of the following templates:\n${templatesToPrompt(template)}`,
     prompt: text,

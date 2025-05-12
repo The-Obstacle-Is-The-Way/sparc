@@ -15,6 +15,7 @@ import {
 } from './ui/tooltip'
 import { LLMModelConfig } from '@/lib/models'
 import { Settings2 } from 'lucide-react'
+import React from 'react'
 
 export function ChatSettings({
   apiKeyConfigurable,
@@ -52,7 +53,7 @@ export function ChatSettings({
                 placeholder="Auto"
                 required={true}
                 defaultValue={languageModel.apiKey}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   onLanguageModelChange({
                     apiKey:
                       e.target.value.length > 0 ? e.target.value : undefined,
@@ -74,7 +75,7 @@ export function ChatSettings({
                 placeholder="Auto"
                 required={true}
                 defaultValue={languageModel.baseURL}
-                onChange={(e) =>
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   onLanguageModelChange({
                     baseURL:
                       e.target.value.length > 0 ? e.target.value : undefined,
@@ -100,7 +101,7 @@ export function ChatSettings({
               step={1}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   maxTokens: parseFloat(e.target.value) || undefined,
                 })
@@ -119,7 +120,7 @@ export function ChatSettings({
               step={0.01}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   temperature: parseFloat(e.target.value) || undefined,
                 })
@@ -136,7 +137,7 @@ export function ChatSettings({
               step={0.01}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   topP: parseFloat(e.target.value) || undefined,
                 })
@@ -153,7 +154,7 @@ export function ChatSettings({
               step={1}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   topK: parseFloat(e.target.value) || undefined,
                 })
@@ -172,7 +173,7 @@ export function ChatSettings({
               step={0.01}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   frequencyPenalty: parseFloat(e.target.value) || undefined,
                 })
@@ -191,7 +192,7 @@ export function ChatSettings({
               step={0.01}
               className="h-6 rounded-sm w-[84px] text-xs text-center tabular-nums"
               placeholder="Auto"
-              onChange={(e) =>
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onLanguageModelChange({
                   presencePenalty: parseFloat(e.target.value) || undefined,
                 })

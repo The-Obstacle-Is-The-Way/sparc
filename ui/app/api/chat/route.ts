@@ -5,7 +5,7 @@ import { toPrompt } from '@/lib/prompt'
 import ratelimit from '@/lib/ratelimit'
 import { fragmentSchema as schema } from '@/lib/schema'
 import { Templates } from '@/lib/templates'
-import { streamObject, LanguageModel, CoreMessage } from 'ai'
+import { streamObject, CoreMessage } from 'ai'
 
 export const maxDuration = 60
 
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
   const modelClient = getModelClient(model, config)
 
   const stream = await streamObject({
-    model: modelClient as LanguageModel,
+    model: modelClient,
     schema,
     system: toPrompt(template),
     messages,

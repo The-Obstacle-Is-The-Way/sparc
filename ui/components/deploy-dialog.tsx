@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Duration } from '@/lib/duration'
 import { usePostHog } from 'posthog-js/react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export function DeployDialog({
   url,

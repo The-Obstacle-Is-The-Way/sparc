@@ -68,10 +68,12 @@ export function useAuth(
             data: { is_fragments_user: true },
           })
         }
-        posthog.identify(session?.user.id, {
-          email: session?.user.email,
-          supabase_id: session?.user.id,
-        })
+        if (session?.user.id) {
+          posthog.identify(session.user.id, {
+            email: session?.user.email,
+            supabase_id: session?.user.id,
+          })
+        }
         posthog.capture('sign_in')
       }
     })
@@ -99,10 +101,12 @@ export function useAuth(
             data: { is_fragments_user: true },
           })
         }
-        posthog.identify(session?.user.id, {
-          email: session?.user.email,
-          supabase_id: session?.user.id,
-        })
+        if (session?.user.id) {
+          posthog.identify(session.user.id, {
+            email: session?.user.email,
+            supabase_id: session?.user.id,
+          })
+        }
         posthog.capture('sign_in')
       }
 
