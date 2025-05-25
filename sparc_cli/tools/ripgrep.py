@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import platform
 from typing import Dict, Union, Optional, List
 from langchain_core.tools import tool
 from rich.console import Console
@@ -52,10 +53,23 @@ def get_rg_command():
     try:
         import ripgrepy
         ripgrepy_dir = os.path.dirname(ripgrepy.__file__)
-        rg_binary = os.path.join(ripgrepy_dir, 'bin', 'rg')
         
-        # Make binary executable if it's not
-        if not os.access(rg_binary, os.X_OK):
+        # Platform-specific binary path
+        if platform.system() == 'Windows':
+            rg_binary = os.path.join(ripgrepy_dir, 'bin', 'rg.exe')
+        else:
+            rg_binary = os.path.join(ripgrepy_dir, 'bin', 'rg')
+        
+        # Check if the binary exists
+        if not os.path.exists(rg_binary):
+            # Try the alternative binary location structure some packages use
+            if platform.system() == 'Windows':
+                rg_binary = os.path.join(ripgrepy_dir, 'rg.exe')
+            else:
+                rg_binary = os.path.join(ripgrepy_dir, 'rg')
+        
+        # Make binary executable if it's not (for Unix-like systems)
+        if platform.system() != 'Windows' and os.path.exists(rg_binary) and not os.access(rg_binary, os.X_OK):
             os.chmod(rg_binary, 0o755)
         
         return rg_binary
@@ -124,6 +138,8 @@ def ripgrep_search(
     # Add exclusions
     exclusions = DEFAULT_EXCLUDE_DIRS + (exclude_dirs or [])
     for dir in exclusions:
+        # Ensure consistent path separators for the platform
+        dir = dir.replace('\\', '/') if platform.system() != 'Windows' else dir
         cmd.extend(['--glob', f'!{dir}'])
 
     # Add the search pattern
@@ -155,7 +171,7 @@ def ripgrep_search(
         print()
         output, return_code = run_interactive_command(cmd)
         print()
-        decoded_output = output.decode() if output else ""
+        decoded_output = output.decode('utf-8', errors='replace') if output else ""
         
         return {
             "output": truncate_output(decoded_output),

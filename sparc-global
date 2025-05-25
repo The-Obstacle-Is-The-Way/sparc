@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Absolute path to SPARC's virtual environment
+SPARC_ENV="/Users/ray/Desktop/GITHUB/sparc/.venv"
+SPARC_BIN="$SPARC_ENV/bin/sparc"
+
+# Ensure the virtual environment exists
+if [ ! -d "$SPARC_ENV" ]; then
+    echo "Error: SPARC environment not found at $SPARC_ENV" >&2
+    exit 1
+fi
+
+# Ensure the SPARC executable exists
+if [ ! -f "$SPARC_BIN" ]; then
+    echo "Error: SPARC executable not found at $SPARC_BIN" >&2
+    exit 1
+fi
+
+# Run SPARC with all arguments passed to this script
+"$SPARC_ENV/bin/python" "$SPARC_BIN" "$@"
