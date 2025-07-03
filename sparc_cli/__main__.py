@@ -1,12 +1,27 @@
 import argparse
 import sys
 import uuid
+import os
+from pathlib import Path
 from rich.panel import Panel
 from rich.console import Console
 from sparc_cli.console.formatting import print_interrupt
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 from sparc_cli.env import validate_environment
+
+# Load .env file if present
+try:
+    from dotenv import load_dotenv
+    # Try to load .env from current directory first, then from home directory
+    env_paths = [Path.cwd() / '.env', Path.home() / '.env']
+    for env_path in env_paths:
+        if env_path.exists():
+            load_dotenv(env_path)
+            break
+except ImportError:
+    # dotenv not available, skip loading
+    pass
 from sparc_cli.tools.memory import _global_memory, get_related_files, get_memory_value
 from sparc_cli.tools.human import ask_human
 from sparc_cli.console.formatting import print_stage_header, print_error
